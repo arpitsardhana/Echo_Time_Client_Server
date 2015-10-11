@@ -1,0 +1,54 @@
+# Copyright (c) 2015 All Right Reserved,Arpit Singh(arpsingh@cs.stonybrook.edu)
+# Time Echo Client-Server is free program: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Time Echo Client-Server is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# for terms and conditions see, see <http://www.gnu.org/licenses/>.
+
+
+
+Created By           :    Arpit Singh
+Date                 :    29 September 2015
+File Type            :    README
+Summary              :    This program is written as part of course requirement of CSE533:Network Programming
+                          under guidance of Prof. Ellen Liu. In this program, a simple multithreaded server and cli
+                          and client is designed.  Server proivdes two services: 1. Echo 2. Daytime.
+                          Client request service either by entering ip-address of server or using host name.
+                          On request Server services the request depending on request.
+
+
+Files Includes         :   tcpechotimesrv.c, tcpechotimecli.c,echo_cli.c,time_cli.c
+Compiler Instruction   :   Approprite Makefile is included in program.Run Make on solaris system. Sytem should have
+                          linkage to Steven code unp.h.
+
+Execution Instructions :   Run ./server
+                           Run ./client <ip-address> or ./client <hostname>
+
+
+High Level Design      :    Server:
+                                Server is multithreded program and create new thread for every incoming request
+                                Server can identify Cleint termination and all possible errors
+                                On new request server prints out conenction details
+                                On Echo request: server sends back data hat it has received
+                                On Time request: server sends current day time at server
+
+                            Client:
+                                Client forks new xterm every time a request is made
+                                Client also prints out server ip address and host name
+                                Client parent waits for child to execute
+                                On error, child window sends appropriate error messages to parent
+                                Client can be stooped either using cntrl+c or cntrl+d
+
+Design Decisions        :  1. Signals handled: SIGPIPE,SIGTERM,SIGINT
+                           2. Cntrl+d,cntrl+c handled at both clients
+                           3. Server identifies cntrl+C
+                           4. Server prints out approprite messages regarding status of client
+                           5. All child status of failure are communicated to parent at cleint via half duplex pipe
+			   6. Thread safety taken into account
+			   7. EPIPE handled at server as well as at client.
+~                                                                                                                       
